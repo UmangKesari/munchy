@@ -1,25 +1,10 @@
-    import React from "react";
-    import ReactDOM  from "react-dom/client";
+import React from "react";
+import ReactDOM  from "react-dom/client";
 
-    const Header = () => {
-        return (
-            <div className="header">
-                <div className="logo-container">
-                    <img src="./images/logo1.jpg" alt="logo"></img>
-                </div>
+import Header from "./components/Header";
+import Body from "./components/Body";
 
-                <div className="nav-items">
-                    <ul>
-                        <li>Home</li>
-                        <li>About Us</li>
-                        <li>Contact Us</li>
-                        <li>Cart</li>
-                    </ul>
 
-                </div>
-            </div>
-        )
-    };
 
     const RestaurantCard = (props) => {
 
@@ -2091,22 +2076,7 @@
         },
     ];
 
-    const Body = () => {
-        return (
-            <div className="body">
-                <div className="search">Search</div>
-                <div className="res-container">
-                    {
-                        // this is how we render dynamic data
-                        resList.map((restaurant, index) => {
-                            console.log(index + " Im here" + restaurant.data.address)
-                            return <RestaurantCard key={restaurant.id} resData={restaurant} />
-                        })}
-                    
-                </div>
-            </div>
-        );
-    }
+    
 
     const AppLayout = () => {
         return (<div className="app">
