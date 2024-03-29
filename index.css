@@ -43,3 +43,8 @@
 .res-logo {
     width: 100%; /*to make image inside border of res card*/
 }
+
+.filter-btn {
+    margin: 10px;
+    cursor: pointer;
+}
