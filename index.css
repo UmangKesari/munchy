@@ -70,3 +70,14 @@
     display: flex;
     
 }
+
+.user-card {
+    background-color: grey;
+    padding: 10px;
+    margin: 10px;
+
+}
+
+.menu-item {
+    background-color: aquamarine;
+}
