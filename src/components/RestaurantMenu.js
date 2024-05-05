@@ -2,27 +2,18 @@ import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 import { MENU_API } from "../utils/constants";
-
+import useRestaurantMenu from "../utils/useRestaurantMenu";
 
 const RestaurantMenu = () => {
-  const [resInfo, setResInfo] = useState(null);
+  //const [resInfo, setResInfo] = useState(null); moving it to custom hook
+
+  /**
+   * Restaurant menu has two has resposibility - fetch data and display on UI.
+   * So, using custom hooks , abstracted out the logic of fetching data.
+   */
 
   const { resId } = useParams();
-
-  useEffect(() => {
-    fetchMenu();
-  }, []);
-
-  const fetchMenu = async () => {
-    const data = await fetch(MENU_API + resId);
-
-    const json = await data.json();
-
-    //const res = json?.data?.cards[2]?.card?.card?.info?.id
-    //console.log(json?.data);
-
-    setResInfo(json.data);
-  };
+  const resInfo = useRestaurantMenu(resId);
 
   if (resInfo === null) {
     return <Shimmer />;
@@ -35,9 +26,6 @@ const RestaurantMenu = () => {
   const { itemCards } =
     resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
 
-  console.log("Item cards ");
-  console.log(itemCards);
-
   return (
     <div className="menu">
       <h1>{name}</h1>
@@ -47,8 +35,6 @@ const RestaurantMenu = () => {
       <h2>Menu</h2>
       <ul>
         {itemCards.map((item) => (
-          //console.log(item.card.info)
-          //console.log(item.card.info.name);
           <li className="menu-item" key={item.card.info.id}>
             {item.card.info.name} - {"Rs. "} {item.card.info.price / 100}
           </li>

@@ -5,6 +5,8 @@ import { API_URL } from "../utils/constants";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 
+import useOnlineStatus from "../utils/useOnlineStatus";
+
 const Body = () => {
   // let [listOfRestaurants, setListOfRestaurants] = useState([
   //   {
@@ -70,6 +72,11 @@ const Body = () => {
     setFilteredRestaurant(restaurants);
   };
 
+  const onlineStatus = useOnlineStatus();
+
+  if (onlineStatus === false) {
+    return <h1>You're off line. Please check your internet connection</h1>;
+  }
   //conditional rendering
   if (listOfRestaurants.length === 0) {
     return <Shimmer />;
@@ -126,7 +133,10 @@ const Body = () => {
         {
           // this is how we render dynamic data
           filteredRestaurant.map((restaurant) => (
-            <Link key={restaurant?.info?.id} to={"/restaurants/" + restaurant.info.id}>
+            <Link
+              key={restaurant?.info?.id}
+              to={"/restaurants/" + restaurant.info.id}
+            >
               <RestaurantCard resData={restaurant} />
             </Link>
           ))
