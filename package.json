@@ -3,7 +3,9 @@
   "description": "Food delivery app",
   "version": "1.0.0",
   "devDependencies": {
-    "process": "^0.11.10"
+    "postcss": "^8.4.38",
+    "process": "^0.11.10",
+    "tailwindcss": "^3.4.3"
   },
   "scripts": {
     "test": "jest",
