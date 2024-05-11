@@ -3,6 +3,7 @@ import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 import { MENU_API } from "../utils/constants";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantCategory from "./RestaurantCategory";
 
 const RestaurantMenu = () => {
   //const [resInfo, setResInfo] = useState(null); moving it to custom hook
@@ -26,20 +27,27 @@ const RestaurantMenu = () => {
   const { itemCards } =
     resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
 
+  console.log(resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards);
+
+  //filter out item category card
+  const itemCategories =
+    resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (c) =>
+        c.card?.card?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
+
   return (
-    <div className="menu">
-      <h1>{name}</h1>
-      <h3>
+    <div className="text-center">
+      <h1 className="font-bold my-10 text-2xl">{name}</h1>
+      <p className="font-bold">
         {cuisines.join(", ")} - {costForTwoMessage}
-      </h3>
-      <h2>Menu</h2>
-      <ul>
-        {itemCards.map((item) => (
-          <li className="menu-item" key={item.card.info.id}>
-            {item.card.info.name} - {"Rs. "} {item.card.info.price / 100}
-          </li>
-        ))}
-      </ul>
+      </p>
+
+      {/* Categories accordian .. For each category, there will be accordian item*/}
+
+      {itemCategories.map((category) => <RestaurantCategory data={category?.card?.card}/> )}
+
     </div>
   );
 };
