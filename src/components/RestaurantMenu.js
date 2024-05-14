@@ -15,6 +15,7 @@ const RestaurantMenu = () => {
 
   const { resId } = useParams();
   const resInfo = useRestaurantMenu(resId);
+  const [showIndex, setShowIndex] = useState(null); // to maintain child state - for restaurant category
 
   if (resInfo === null) {
     return <Shimmer />;
@@ -46,8 +47,16 @@ const RestaurantMenu = () => {
 
       {/* Categories accordian .. For each category, there will be accordian item*/}
 
-      {itemCategories.map((category) => <RestaurantCategory data={category?.card?.card}/> )}
-
+      {itemCategories.map((category, index) => (
+        
+        //controlled component
+        <RestaurantCategory
+          key={category?.card?.card.title}
+          data={category?.card?.card}
+          showItems={index===showIndex? true:false} //lifting state up. To make first accordian item expandable by default
+          setShowIndex={() => setShowIndex(index)}
+        />
+      ))}
     </div>
   );
 };
