@@ -1,9 +1,10 @@
 import RestaurantCard, { withDiscountInfo } from "./RestaurantCard";
 import resList from "../utils/mockData";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { API_URL } from "../utils/constants";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import UserContext from "../utils/UserContext";
 
 import useOnlineStatus from "../utils/useOnlineStatus";
 
@@ -58,6 +59,8 @@ const Body = () => {
 
   const RestaurantCardDiscounted = withDiscountInfo(RestaurantCard);
 
+  const { loggedInUser, setUserName } = useContext(UserContext);
+
   useEffect(() => {
     fetchData(); // callback fun
   }, []);
@@ -68,7 +71,7 @@ const Body = () => {
 
     //console.log(json);
     const restaurants =
-      json?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle
+      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants;
     setListOfRestaurants(restaurants);
     setFilteredRestaurant(restaurants);
@@ -77,8 +80,10 @@ const Body = () => {
   const onlineStatus = useOnlineStatus();
 
   function isNonEmptyAggregatedDiscount(obj) {
-    return obj?.info.hasOwnProperty('aggregatedDiscountInfoV3') && 
+    return (
+      obj?.info.hasOwnProperty("aggregatedDiscountInfoV3") &&
       Object.keys(obj?.info?.aggregatedDiscountInfoV3).length > 0
+    );
   }
 
   if (onlineStatus === false) {
@@ -135,6 +140,15 @@ const Body = () => {
             Top Rated Restaurant
           </button>
         </div>
+        <div className="p-4 m-4 flex items-center">
+          <span>Username: </span>
+          <input
+            type="text"
+            className="m-2 border border-black"
+            value={loggedInUser}
+            onChange={(event) => setUserName(event.target.value)}
+          />
+        </div>
       </div>
 
       <div className="flex flex-wrap">
@@ -146,12 +160,12 @@ const Body = () => {
               to={"/restaurants/" + restaurant.info.id}
             >
               {/* Based on Discount info, corresponding card would be generated */}
-              { 
+              {
                 //console.log(restaurant && restaurant.info && restaurant.info.aggregatedDiscountInfoV3)
                 //console.log(Object.keys(restaurant?.info?.aggregatedDiscountInfoV3))
               }
-              {isNonEmptyAggregatedDiscount(restaurant)? (
-               <RestaurantCardDiscounted resData={restaurant}  />
+              {isNonEmptyAggregatedDiscount(restaurant) ? (
+                <RestaurantCardDiscounted resData={restaurant} />
               ) : (
                 <RestaurantCard resData={restaurant} />
               )}
