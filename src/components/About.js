@@ -1,3 +1,4 @@
+import UserContext from "../utils/UserContext";
 import User from "./User";
 import UserClass from "./UserClass";
 import { Component } from "react";
@@ -30,6 +31,11 @@ class About extends Component {
       <div>
         <h1>About Us</h1>
         <h3>Welcome to Munchy</h3>
+
+        {/* Demo for using context API in class based component */}
+        <UserContext.Consumer>
+          {({loggedInUser}) => <h4 className="text-blue-600">{loggedInUser} context API</h4>}
+        </UserContext.Consumer>
 
         <User name={"umang"}></User>
         <UserClass name={"Umang"} location={"Noida"}></UserClass>
